@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>GeoNotesApp</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!---------------------------------------------- Le style ---------------------------------------------->
+	
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link href="css/application.css" rel="stylesheet">
+	<style type="text/css">
+	html { height: 100% }
+    body { height: 100%; margin: 0px; padding: 0px; padding-top: 100px; }
+	</style>
+	
+<!------------------------------------------------------------------------------------------------------->
+
+</head>
+<body background = "img/map.jpg">
+
+<!----------------------------- the header containing the Navbar top fixed  ----------------------------->
+<header id="header">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container" align="center">
+					<a class="brand" href="#"><h3><i class="icon-map-marker icon-white"></i>  GeoNotes</h3></a>
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav pull-right">
+							<li class="active"><a href="javascript:$('#myModal').modal('show')" role="button" class="btn-inverse" data-toggle="modal" >About</a></li>
+							<li><a href="javascript:close_window();"><i class="icon-remove icon-white"></i> Quit</a></li>
+						</ul>
+					</div>	 	
+				</div>
+			</div>
+		</div>
+	</header>
+<!------------------------------------------------------------------------------------------------------->
+
+
+
+	<div id="MainPage">
+		<!-- Content div that is filled by the router -->
+		<div class="container">
+			<div class="well span11" style="text-align: center;">
+				<h3> Welcome to GeoNotes application </h3><br>
+				<img id="lead-image?cachebust=2" src="img/geonotes.png" width="150px" height="100px">
+				<h5> Move and let tags everywhere you go!!</h5>	
+				<br>
+				<a class="btn btn-large btn-block btn-inverse" role="button" href="#user-page"  type="button"><i class="icon-user icon-white"></i>  USER</a>
+				<a class="btn btn-large btn-block btn-inverse" role="button" href="#admin-page" type="button"><i class="icon-wrench icon-white"></i><i class="icon-repair icon-white"></i>  ADMINISTRATOR</a>
+			</div>
+		</div>
+	</div>
+
+
+<!------------------------------------------------------------------------------------------------------->
+
+
+<!----------------------------- the footer containing the Navbar down fixed  ----------------------------->
+	
+	<div id="footer">
+	<div class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="navbar-inner">
+			<div class="container" align="center">
+				<h5>copyright Telecom St-Etienne 2013</h5>
+			</div>
+		</div>
+	</div>
+	</div>
+<!------------------------------------------------------------------------------------------------------->
+	
+<!--------------------------------------------     Add Note   ------------------------------------------->
+
+	<div id = "addnote" class="modal hide fade"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<Strong><h3>Description</h3></Strong>
+			<br>	
+		</div>
+		<form class="modal-body">
+			<center><div class="span4" style="text-align: center;">
+				<label>Enter your description:</label>
+				<textarea name='description'></textarea>
+			</div></center>
+			
+		</form>
+		<div class="modal-footer">
+			<button id="save" class="btn btn-large btn-inverse" data-dismiss="modal" aria-hidden="true">Save</button>
+			<button class="btn btn-large btn-inverse" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+	</div>
+
+<!------------------------------------------------------------------------------------------------------->
+
+<!--------------------------------------------     About Us   ------------------------------------------->
+
+	<div id = "myModal" class="modal hide fade"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3>GeoNotes</h3>
+			<br>
+			<h5>By: Nizar BELMAHFOUD & Mohammed Amine EL GHARBI</h5>	
+		</div>
+		<div class="modal-body">
+			<p>During our studies at Telecom Saint-Etienne, we were obliged to do this application as project in the last year of the engineering cycle.</p>
+			<p>This application is done for only the administrator, who can add notes according to his locations, and he can also delete and modify them.</p>
+			<p>After adding some notes, the admistrator can define one or lot of paths with the notes wich he has already added before, and those paths will be used by users using another interface.</p>
+			<p>And finally, we hope that you like our application, enjoy it!!</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-large btn-inverse" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+  </div>
+<!------------------------------------------------------------------------------------------------------->
+
+<!------------------------------------     Déclaration of all the tools   ----------------------------->
+<script src="js/underscore.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/jquery-1.8.3.js"></script> 
+<script src="js/jquery-1.8.3.min.js"></script> 	
+<script src="js/backbone.js"></script> 
+<script src="js/backbone.localStorage.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/geolocalisation.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=true" type="text/javascript"></script>
+<script src="js/main.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-alert.js"></script>
+<script src="js/bootstrap-modal.js"></script>
+<script src="js/bootstrap-dropdown.js"></script>
+<script src="js/bootstrap-scrollspy.js"></script>
+<script src="js/bootstrap-tab.js"></script>
+<script src="js/bootstrap-tooltip.js"></script>
+<script src="js/bootstrap-popover.js"></script>
+<script src="js/bootstrap-button.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+<script src="js/bootstrap-carousel.js"></script>
+<script src="js/bootstrap-typeahead.js"></script>
+<!---------------------------------------------------------------------------------------------------->
+</body>
+</html>
