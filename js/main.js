@@ -230,24 +230,27 @@ App.views.AdminNotePage = Backbone.View.extend({
 				$('#latitude').val(position.coords.latitude);
 				$('#longitude').val(position.coords.longitude);
 			});
+			var name = $('#notename').val();
+			var description = $('#Description').val();
+			console.log("ajout de note :");
+			var Longitude = $('#longitude').val();
+			var Latitude = $('#latitude').val();
+			console.log(Longitude);
+			console.log(Latitude);
+			var note= new App.models.NoteModel({name: name,Description:description,longitude:Longitude, latitude:Latitude });
+			console.log(note);
+			note.save();
+			this.model.add(note);
+			$('#name').val(name);
+			$('#description').val(description); 
 
-		var name = $('#notename').val();
-		var description = $('#Description').val();
-        console.log("ajout de note :");
-        var note= new App.models.NoteModel({name: name,Description:description,longitude:this.longitude,latitude:this.latitude});
-        console.log(note);
-		note.save();
-		this.model.add(note);
-		$('#name').val(name);
-		$('#description').val(description); 
-		$('#latitude').val(this.model.get('latitude'));
-        $('#longitude').val(this.model.get('longitude'));        	
+		
     },
-    updateNote: function(id){
+    updateNote: function(){
         console.log("mise à jour de la note:  ");
         var description=$('#description').val();
         var notename=$('#name').val();
-        this.model.get(id).set({Description:description, name:notename});
+        this.model.set({Description:description, name:notename});
 		console.log(this.model);
     }
 });
@@ -298,6 +301,10 @@ App.views.AdminNoteList = Backbone.View.extend({
         console.log(this.model);
         _.each(this.model.models, function(note) {
             $(this.el).append(new App.views.AdminNoteItem({model: note}).render().el);
+			$('#name').val(note.get('name'));
+			$('#description').val(note.get('Description')); 
+			$('#latitude').val(note.get('latitude'));
+			$('#longitude').val(note.get('longitude')); 
         }, this);
         var map_view = new App.views.Map({
          el: $('#map')[0],     
@@ -331,7 +338,7 @@ App.views.AdminNoteItem = Backbone.View.extend({
     },
     render: function(eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
-        return this;
+		return this;  
     },
     destroy: function() {
         this.model.destroy();
@@ -509,10 +516,7 @@ App.Router = Backbone.Router.extend({
 	noteAdmin: function(){
         console.log("dans la fonction router de note page admin");     
         self = this;
-		//this.model= new App.models.NoteModel();
-		//var BDD = App.stores.notes;
-		//BDD.getItem("geonotes");
-		var collection = new App.collections.NoteCollection();
+		var collection = new App.collections.NoteCollection(App.stores.Geonotes.findAll());
 		console.log("après new NoteCollection");
 		console.log(collection);
 		this.noteadm= new App.views.AdminNotePage({model: collection});
