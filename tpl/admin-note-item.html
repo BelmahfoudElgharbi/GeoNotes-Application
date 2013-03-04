@@ -1,14 +1,47 @@
-<a href="#parcoursAdmin/<%= idparcoursnote %>/noteAdmin/<%= id %>" class="pad-right">
  
+<!--ul class="nav nav-pills nav-stacked"-->
+			<a><b><h4><%= name %> : <%= Description %> <br><br>
+			    <div id="row">
+					<div class="container">
+						<div class="span12">
+							<div class="span3 ">
+								<div class="span1 ">
+									<center><label>Title:</label></center>
+								</div>
+								<div class="span2">
+									<input id="name" class="span2" type="text"/>
+								</div>
+							</div>
+							<div class="span3 ">
+								<div class="span1">
+									<center><label>Description:</label></center>
+								</div>
+								<div class="span2">
+									<input id="description" class="span2" type="text"/>
+								</div>
+							</div>
+					
+							<div class="span3">
+								<div class="span1">
+									<label>Latitude:</label>
+									<label>Longitude:</label>
+								</div>
+								<div class="span1">
+									<output id="latitude" class="span1" type="text"/>
+								</div>
+								<div class="span1">
+									<output id="longitude" class="span1" type="text"/>
+								</div>
+							</div>
+							<div class="span2 offset9">
+								<button id="save" class="btn btn-inverse">Save</button> 
+								<button id="delete" class="btn btn-inverse">Delete</button>
+							</div>
+						</div>
+					</div>
+			
+				</h4></b>
+			</a>
+<!--/ul-->
+    	
 
-    <div class="story">
-    	<b><%= notename %></b>
-    	<span class="metadata">
-
-        </span>
-    </div>
-</a>
-
-
-<button class="edit">Edit</button> 
-<button class="delete">Delete</button>

@@ -57,25 +57,28 @@ App.collections.NoteCollection = Backbone.Collection.extend({
 			console.log(this);
 			var collection = this;
 		// When localStorage updates, fetch data from the store
-			/*this.localStorage.bind('update', function(){
-			collection.fetch();})*/
+			//this.localStorage.bind('update', function(){
+			//collection.fetch();})
 		}
 	});	
 	
 //--------------------------------Path Model------------------------------
 
 	App.models.PathModel = Backbone.Model.extend({
-	   
+	    model :App.models.NoteModel,
+		
 		defaults:{
 		name: null,
-		description : null,
-		notes: new App.collections.NoteCollection(),
+		description : null
 		},
 	
 		localStorage: App.stores.Geonotes,
 		
 		initialize: function(){
-		console.log("l'initialisation de  PathModel");				
+		this.localStorage.bind('update', function(){
+			collection.fetch();})
+		console.log("l'initialisation de  PathModel");	
+			
 		}
 	});
 	
@@ -93,8 +96,8 @@ App.collections.NoteCollection = Backbone.Collection.extend({
 			var collection = this;
 
 		// When localStorage updates, fetch data from the store
-			this.localStorage.bind('update', function(){
-			collection.fetch();})
+			//this.localStorage.bind('update', function(){
+			//collection.fetch();})
 		}
 	});
 
@@ -196,15 +199,18 @@ App.views.AdminNotePage = Backbone.View.extend({
     render: function(eventName) {
 	    console.log("dans la fonction render de admin note page");
         $(this.el).html(this.template(this.model.toJSON()));
+		console.log(this.model);
+		console.log("dans la fonction render de note page Admin 2");
         this.listView = new App.views.AdminNoteList({el: $('ul', this.el), model: this.model});
+		console.log(this.listView.el);
         this.listView.render();
         return this;
     },
 	
 	events:{
-        'click .edit': 'edit',
+        'click #edit': 'edit',
         'click #btn': 'addNote',
-		'click #getMyPosition': 'getMaPosition'
+		'click #save': 'updateNote',
     },
 	
     edit:function(){ 
@@ -219,29 +225,30 @@ App.views.AdminNotePage = Backbone.View.extend({
     },
     addNote : function(){
 	    console.log("dans la fonction addNote de admin note page");
-        this.getMaPosition();
+		navigator.geolocation.getCurrentPosition(function(position)
+            {            
+				$('#latitude').val(position.coords.latitude);
+				$('#longitude').val(position.coords.longitude);
+			});
+
 		var name = $('#notename').val();
 		var description = $('#Description').val();
         console.log("ajout de note :");
         var note= new App.models.NoteModel({name: name,Description:description,longitude:this.longitude,latitude:this.latitude});
         console.log(note);
 		note.save();
-        this.model.add(note);
+		this.model.add(note);
+		$('#name').val(name);
+		$('#description').val(description); 
+		$('#latitude').val(this.model.get('latitude'));
+        $('#longitude').val(this.model.get('longitude'));        	
     },
-    updateNote: function(){
+    updateNote: function(id){
         console.log("mise à jour de la note:  ");
         var description=$('#description').val();
         var notename=$('#name').val();
-        //this.model.updateNote(this.longitude,this.latitude,description,notename);
-    },
-    getMaPosition :function(){
-        navigator.geolocation.getCurrentPosition(function(position)
-            {            
-                $('#latitude').val(position.coords.latitude);
-                $('#longitude').val(position.coords.longitude);
-				this.latitude = position.coords.latitude;
-				this.longitude = position.coords.longitude;
-            });
+        this.model.get(id).set({Description:description, name:notename});
+		console.log(this.model);
     }
 });
 //---------------------------------------------------------------------------------------------
@@ -278,9 +285,13 @@ App.views.AddNote = Backbone.View.extend({
 //----------------------------------- Admin Note List View-------------------------------------
 
 App.views.AdminNoteList = Backbone.View.extend({
+	tagName: "ul",
     initialize: function() {
+		_.bindAll(this, 'addOne', 'addAll');
         this.model.bind("reset", this.render, this);
         this.model.on('add',this.addOne,this);
+		this.model.on('change',this.addOne,this);
+		this.model.bind('refresh', this.addAll);
     },
     render: function(eventName) {
         $(this.el).empty();
@@ -294,11 +305,15 @@ App.views.AdminNoteList = Backbone.View.extend({
         });
         return this;
     },
-    addOne: function(parcours){
+    addOne: function(note){
         console.log('ajout view note ');
-        var noteView = new App.views.AdminNoteItem({ model: parcours });
-        this.$el.append(noteView.render().el);
-    }
+        var noteView = new App.views.AdminNoteItem({ model: note });
+        this.$el.prepend(noteView.render().el);
+    },
+	addAll: function(){
+		$(this.el).empty();
+		this.model.each(this.addOne);
+	}
 });
 //---------------------------------------------------------------------------------------------
 
@@ -306,9 +321,10 @@ App.views.AdminNoteList = Backbone.View.extend({
 App.views.AdminNoteItem = Backbone.View.extend({
     tagName: "li",
     events: {
-        'click .delete': 'destroy'
+        'click #delete': 'destroy'
     },
     initialize: function() {
+		_.bindAll(this, 'render')
         this.template = _.template(App.utils.templateLoader.get('admin-note-item'));
         this.model.on('change', this.render, this);
         this.model.on('destroy', this.remove, this);
@@ -494,8 +510,13 @@ App.Router = Backbone.Router.extend({
         console.log("dans la fonction router de note page admin");     
         self = this;
 		//this.model= new App.models.NoteModel();
-		this.collection = new App.collections.NoteCollection();
-		this.noteadm= new App.views.AdminNotePage({model: this.collection});
+		//var BDD = App.stores.notes;
+		//BDD.getItem("geonotes");
+		var collection = new App.collections.NoteCollection();
+		console.log("après new NoteCollection");
+		console.log(collection);
+		this.noteadm= new App.views.AdminNotePage({model: collection});
+		console.log(this.noteadm);
 		this.noteadm.render();
         self.slidePage(this.noteadm);
     },
