@@ -1,4 +1,3 @@
- 
 <!--ul class="nav nav-pills nav-stacked"-->
 			<a><b><h4><%= name %> : <%=Description%> <br><br>
 			    <div id="row" >
@@ -20,12 +19,8 @@
 									<input id="description <%=id%>" class="span2" type="text" value="<%=Description%>"/>
 								</div>
 							</div>
-					
-							<div class="span2">
-								<label>Latitude: <%=latitude%></label>
-								<label>Longitude: <%=longitude%></label>
-							</div>
-							<div class="span3">
+							<div class="span3 offset2">
+								<button id="save" class="btn btn-inverse btn-block"><i class="icon-edit icon-white"></i> Edit Notes</button> 
 								<button id="save" class="btn btn-inverse btn-block"><i class="icon-folder-open icon-white"></i> Save</button> 
 								<button id="delete" class="btn btn-inverse btn-block"><i class="icon-trash icon-white"></i> Delete</button>
 							</div>
@@ -37,5 +32,3 @@
 				</h4></b>
 			</a>
 <!--/ul-->
-    	
-
